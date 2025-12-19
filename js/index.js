@@ -10,6 +10,8 @@ var favContact = document.getElementById("favContact");
 var searchInput = document.getElementById("searchInput");
 var emerContact = document.getElementById("emerContact");
 var total = document.getElementById("total");
+var emrTotal = document.getElementById("emrTotal");
+var favTotal = document.getElementById("favTotal");
 
 var modalInstance =
   bootstrap.Modal.getInstance(contactShow) || new bootstrap.Modal(modalElement);
@@ -382,6 +384,7 @@ function favorite(index){
      favCont.push(contactList[index])
 localStorage.setItem("favStorage", JSON.stringify(favCont));
 displayFav()
+totalFav()
 
   }
  
@@ -458,6 +461,7 @@ function emr(index){
     emrCont.push(contactList[index])
 localStorage.setItem('emrStorage',JSON.stringify(emrCont))
 displayEmr()
+emerTotal()
 
   }
  
@@ -507,5 +511,17 @@ function displayEmr(){
 
 
 
+function totalFav(){
+favTotal.innerHTML=`  <p class="mt-3 small-font fw-medium text-secondary">FAVORITES</p>
+              <p class="mt-20 fs-4 fw-bold">${favCont.length}</p>`
+}
 
+totalFav()
+
+
+function emerTotal(){
+  emrTotal.innerHTML=` <p class="mt-3 small-font fw-medium text-secondary">EMERGENCY</p>
+              <p class="mt-20 fs-4 fw-bold">${emrCont.length}</p>`
+}
+emerTotal()
 
