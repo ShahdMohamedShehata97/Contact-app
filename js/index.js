@@ -230,12 +230,12 @@ function displayContact(list=contactList) {
                     </div>
 
                     <div class="contact-buttons d-flex gap-3 p-3">
-                      <button class="fav border-0 text-secondary" onclick="favorite(${i})">
+                      <button class="fav border-0 text-secondary" onclick="favorite('${list[i].cPhoneNumber}')"">
                         <i class="fa-regular fa-star"></i>
                       </button>
 
 
-                      <button class="emr border-0 text-secondary" onclick="emr(${i})">
+                      <button class="emr border-0 text-secondary" onclick="emr('${list[i].cPhoneNumber}')"">
                         <i class="fa-regular fa-heart"></i>
                       </button>
 
@@ -367,29 +367,58 @@ if (localStorage.getItem("favStorage")) {
   displayFav()
 }
 
-function favorite(index){
-   var favNumber=favCont[index].cPhoneNumber
-   var favUnique=true;
+// function favorite(index){
+//    var favNumber=contactList[index].cPhoneNumber
+//    var favUnique=true;
+
+//   for(var i=0;i<favCont.length;i++){
+//     if (favNumber === favCont[i].cPhoneNumber) {
+//         favUnique = false;
+     
+//         break;
+//       }
+
+//   }
+
+//   if(favUnique){
+//      favCont.push(contactList[index])
+// localStorage.setItem("favStorage", JSON.stringify(favCont));
+// displayFav()
+// totalFav()
+
+//   }
+ 
+
+// }
+function favorite(phone){
+  var favUnique = true;
 
   for(var i=0;i<favCont.length;i++){
-    if (favNumber === favCont[i].cPhoneNumber) {
-        favUnique = false;
-     
-        break;
-      }
-
+    if (favCont[i].cPhoneNumber === phone){
+      favUnique = false;
+      break;
+    }
   }
 
   if(favUnique){
-     favCont.push(contactList[index])
-localStorage.setItem("favStorage", JSON.stringify(favCont));
-displayFav()
-totalFav()
-
+    var contact = null; // أو var contact;
+for (var i = 0; i < contactList.length; i++) {
+  if (contactList[i].cPhoneNumber === phone) {
+    contact = contactList[i];
+    break; // لما نلاقي أول عنصر مطابق نوقف البحث
   }
- 
-
 }
+
+if (!contact) return; // حماية لو الرقم مش موجود
+
+
+    favCont.push(contact);
+    localStorage.setItem("favStorage", JSON.stringify(favCont));
+    displayFav();
+    totalFav();
+  }
+}
+
 
 
 function displayFav(){
@@ -443,32 +472,59 @@ if (localStorage.getItem("emrStorage")) {
   displayEmr()
 }
 
-function emr(index){
+// function emr(index){
  
- var emrNumber=emrCont[index].cPhoneNumber
-   var emrUnique=true;
+//  var emrNumber=contactList[index].cPhoneNumber
+//    var emrUnique=true;
 
-  for(var i=0;i<favCont.length;i++){
-    if (emrNumber === emrCont[i].cPhoneNumber) {
-        emrUnique = false;
+//   for(var i=0;i<favCont.length;i++){
+//     if (emrNumber === emrCont[i].cPhoneNumber) {
+//         emrUnique = false;
      
-        break;
-      }
+//         break;
+//       }
 
+//   }
+
+//   if(emrUnique){
+//     emrCont.push(contactList[index])
+// localStorage.setItem('emrStorage',JSON.stringify(emrCont))
+// displayEmr()
+// emerTotal()
+
+//   }
+ 
+
+ 
+
+// }
+
+function emr(phone){
+  var emrUnique = true;
+
+  for(var i=0;i<emrCont.length;i++){
+    if (emrCont[i].cPhoneNumber === phone){
+      emrUnique = false;
+      break;
+    }
   }
 
   if(emrUnique){
-    emrCont.push(contactList[index])
-localStorage.setItem('emrStorage',JSON.stringify(emrCont))
-displayEmr()
-emerTotal()
-
+    var contact;
+for(var i=0; i < contactList.length; i++){
+  if(contactList[i].cPhoneNumber === phone){
+    contact = contactList[i];
+    break;
   }
- 
-
- 
-
 }
+   
+    emrCont.push(contact);
+    localStorage.setItem("emrStorage", JSON.stringify(emrCont));
+    displayEmr();
+    emerTotal();
+  }
+}
+
 
 
 function displayEmr(){
