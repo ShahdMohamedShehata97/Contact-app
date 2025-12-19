@@ -94,6 +94,7 @@ function addContact() {
       contactList.push(contact);
       localStorage.setItem("contactStorage", JSON.stringify(contactList));
       displayContact();
+      formClear();
 
       Swal.fire({
         icon: "success",
@@ -102,6 +103,7 @@ function addContact() {
         showConfirmButton: false,
         timer: 2000,
       });
+
     } else {
       Swal.fire({
         icon: "error",
@@ -111,8 +113,8 @@ function addContact() {
     }
 
     updateTotal();
-
-    console.log(contactList);
+     
+    // console.log(contactList);
   }
 }
 
@@ -401,15 +403,15 @@ function favorite(phone){
   }
 
   if(favUnique){
-    var contact = null; // أو var contact;
+    var contact = null; 
 for (var i = 0; i < contactList.length; i++) {
   if (contactList[i].cPhoneNumber === phone) {
     contact = contactList[i];
-    break; // لما نلاقي أول عنصر مطابق نوقف البحث
+    break;  
   }
 }
 
-if (!contact) return; // حماية لو الرقم مش موجود
+if (!contact) return; 
 
 
     favCont.push(contact);
@@ -580,4 +582,12 @@ function emerTotal(){
               <p class="mt-20 fs-4 fw-bold">${emrCont.length}</p>`
 }
 emerTotal()
+
+
+function formClear(){
+  fullName.value="";
+  phoneNumber.value="";
+  emailAddress.value="";
+  address.value="";
+}
 
