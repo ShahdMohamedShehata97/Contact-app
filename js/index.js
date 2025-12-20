@@ -62,7 +62,7 @@ if (localStorage.getItem("contactStorage")) {
 
 
 
-
+// Add Cobtact
 
 function addContact() {
   if (
@@ -281,7 +281,9 @@ function Validation(input) {
 }
 
 ///delete
+var deletItem
 function deleteFun(index) {
+  deletItem=contactList[index].cPhoneNumber;
   contactList.splice(index, 1);
   Swal.fire({
     title: "Delete Contact?",
@@ -303,10 +305,17 @@ function deleteFun(index) {
       });
     }
   });
+
+ 
   // console.log(contactList)
+
+
   localStorage.setItem("contactStorage", JSON.stringify(contactList));
+ 
   displayContact();
   updateTotal();
+   deleteFav() 
+    deleteEmr()
 }
 
 //update total
@@ -331,7 +340,10 @@ function editForUpdate(index) {
 
 //update
  var btnStatus=true
+  var updateItem
 function updateFun() {
+
+  updateItem=contactList[globalIndex].cPhoneNumber
   contactList[globalIndex].cName = fullName.value;
   contactList[globalIndex].cPhoneNumber = phoneNumber.value;
   contactList[globalIndex].cEmailAddress = emailAddress.value;
@@ -340,6 +352,8 @@ function updateFun() {
   localStorage.setItem("contactStorage", JSON.stringify(contactList));
 
   displayContact();
+  updateFav()
+  updateEmr()
   
   
   
@@ -422,6 +436,7 @@ if (!contact) return;
 }
 
 
+console.log('fav:',favCont)
 
 function displayFav(){
 
@@ -463,6 +478,53 @@ function displayFav(){
   favContact.innerHTML=box
 }
 
+
+//delete favotite
+function deleteFav() {
+ 
+  var phoneIndex
+  var i
+  for( i=0;i<favCont.length;i++){
+    if(deletItem===favCont[i].cPhoneNumber){
+      phoneIndex=i;
+      break;
+    }
+  }
+
+  favCont.splice(i,1)
+  localStorage.setItem("favStorage", JSON.stringify(favCont));
+  displayFav();
+  totalFav();
+
+
+}
+
+
+//updat fav number
+function updateFav() {
+
+  
+  var phoneIndexUpdate
+  var i
+  for(i=0;i<favCont.length;i++){
+    if(updateItem===favCont[i].cPhoneNumber){
+      phoneIndexUpdate=i;
+      break;
+    }
+  }
+
+favCont[phoneIndexUpdate].cName = fullName.value;
+favCont[phoneIndexUpdate].cPhoneNumber = phoneNumber.value;
+favCont[phoneIndexUpdate].cEmailAddress = emailAddress.value;
+favCont[phoneIndexUpdate].cAddress = address.value;
+  
+  localStorage.setItem("favStorage", JSON.stringify(favCont));
+  displayFav()
+
+  
+  
+  
+}
 
 
 //emer
@@ -565,6 +627,54 @@ function displayEmr(){
   }
 
   emerContact.innerHTML=box
+}
+
+//delet from emer
+function deleteEmr() {
+ 
+  var phoneIndex
+  var i
+  for( i=0;i<emrCont.length;i++){
+    if(deletItem===emrCont[i].cPhoneNumber){
+      phoneIndex=i;
+      break;
+    }
+  }
+
+  emrCont.splice(i,1)
+  localStorage.setItem("emrStorage", JSON.stringify(favCont));
+  displayEmr();
+  emerTotal();
+
+
+}
+
+
+//update emr
+
+function updateEmr() {
+
+  
+  var phoneIndexUpdate
+  var i
+  for(i=0;i<emrCont.length;i++){
+    if(updateItem===emrCont[i].cPhoneNumber){
+      phoneIndexUpdate=i;
+      break;
+    }
+  }
+
+emrCont[phoneIndexUpdate].cName = fullName.value;
+emrCont[phoneIndexUpdate].cPhoneNumber = phoneNumber.value;
+emrCont[phoneIndexUpdate].cEmailAddress = emailAddress.value;
+emrCont[phoneIndexUpdate].cAddress = address.value;
+  
+  localStorage.setItem("emrStorage", JSON.stringify(emrCont));
+  displayEmr()
+
+  
+  
+  
 }
 
 
