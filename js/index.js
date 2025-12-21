@@ -283,11 +283,9 @@ function Validation(input) {
 ///delete
 var deletItem
 function deleteFun(index) {
-  deletItem=contactList[index].cPhoneNumber;
-  contactList.splice(index, 1);
   Swal.fire({
     title: "Delete Contact?",
-    text: "Are you sure you want to delete Shahd Mohammed Shehata? This action cannot be undone.",
+    text: "Are you sure you want to delete this contact? This action cannot be undone.",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#d33",
@@ -296,6 +294,18 @@ function deleteFun(index) {
     cancelButtonText: "Cancel",
   }).then((result) => {
     if (result.isConfirmed) {
+
+      var deletedItem= contactList[index].cPhoneNumber;
+
+      contactList.splice(index, 1);
+      localStorage.setItem("contactStorage", JSON.stringify(contactList));
+
+      deleteFav(deletedItem);
+      deleteEmr(deletedItem);
+
+      displayContact();
+      updateTotal();
+
       Swal.fire({
         icon: "success",
         title: "Deleted!",
@@ -305,18 +315,8 @@ function deleteFun(index) {
       });
     }
   });
-
- 
-  // console.log(contactList)
-
-
-  localStorage.setItem("contactStorage", JSON.stringify(contactList));
- 
-  displayContact();
-  updateTotal();
-   deleteFav() 
-    deleteEmr()
 }
+
 
 //update total
 function updateTotal() {
@@ -352,8 +352,11 @@ function updateFun() {
   localStorage.setItem("contactStorage", JSON.stringify(contactList));
 
   displayContact();
-  updateFav()
-  updateEmr()
+  updateFav();
+  updateEmr();
+  formClear();
+  btnStatus=true;
+  globalIndex=null
   
   
   
@@ -433,10 +436,13 @@ if (!contact) return;
     displayFav();
     totalFav();
   }
+  else{
+    deleteFav(phone)
+  }
 }
 
 
-console.log('fav:',favCont)
+
 
 function displayFav(){
 
@@ -480,12 +486,12 @@ function displayFav(){
 
 
 //delete favotite
-function deleteFav() {
+function deleteFav(index) {
  
   var phoneIndex
   var i
   for( i=0;i<favCont.length;i++){
-    if(deletItem===favCont[i].cPhoneNumber){
+    if(index===favCont[i].cPhoneNumber){
       phoneIndex=i;
       break;
     }
@@ -504,7 +510,7 @@ function deleteFav() {
 function updateFav() {
 
   
-  var phoneIndexUpdate
+  var phoneIndexUpdate;
   var i
   for(i=0;i<favCont.length;i++){
     if(updateItem===favCont[i].cPhoneNumber){
@@ -587,6 +593,10 @@ for(var i=0; i < contactList.length; i++){
     displayEmr();
     emerTotal();
   }
+
+  else{
+    deleteEmr(phone)
+  }
 }
 
 
@@ -630,19 +640,19 @@ function displayEmr(){
 }
 
 //delet from emer
-function deleteEmr() {
+function deleteEmr(index) {
  
-  var phoneIndex
+  var phoneIndex=0
   var i
   for( i=0;i<emrCont.length;i++){
-    if(deletItem===emrCont[i].cPhoneNumber){
+    if(index===emrCont[i].cPhoneNumber){
       phoneIndex=i;
       break;
     }
   }
 
   emrCont.splice(i,1)
-  localStorage.setItem("emrStorage", JSON.stringify(favCont));
+  localStorage.setItem("emrStorage", JSON.stringify(emrCont));
   displayEmr();
   emerTotal();
 
@@ -655,7 +665,7 @@ function deleteEmr() {
 function updateEmr() {
 
   
-  var phoneIndexUpdate
+  var phoneIndexUpdate;
   var i
   for(i=0;i<emrCont.length;i++){
     if(updateItem===emrCont[i].cPhoneNumber){
